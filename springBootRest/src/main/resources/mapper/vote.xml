@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springbootrest.model.mapper.VoteMapper">
+
+    <select id="getVote" parameterType="RetrieveRequestDto" resultMap="getVoteResultMap">
+        SELECT vote_id, article_id, user_id, title, description, deadline, total_cnt
+        FROM vote
+        WHERE vote_id = #{voteId}
+    </select>
+    
+    <resultMap id="getVoteResultMap" type="Vote">
+        <id column="vote_id" property="voteId" />
+        <result column="article_id" property="articleId" />
+        <result column="user_id" property="userId" />
+        <result column="title" property="title" />
+        <result column="description" property="description" />
+        <result column="deadline" property="deadline" />
+        <result column="totalCnt" property="totalCnt" />
+        <collection property="items" column="vote_id" javaType="java.util.ArrayList" ofType="VoteItem" select="com.example.springbootrest.model.mapper.VoteItemMapper.getVoteItem" />
+    </resultMap>
+
+    <select id="getVoteByArticleId" parameterType="long" resultType="Vote">
+        SELECT vote_id, article_id, user_id, title, description, deadline, total_cnt
+        FROM vote
+        WHERE article_id = #{articleId}
+    </select>
+
+    <insert id="createVote" parameterType="CreateRequestDto">
+        INSERT INTO vote (vote_id, article_id, user_id, title, description, deadline)
+        VALUES (#{voteId}, #{articleId}, #{userId}, #{title}, #{description}, #{deadline})
+    </insert>
+
+    <update id="countPlus" parameterType="String">
+        UPDATE vote
+        SET total_cnt = total_cnt + 1
+        WHERE vote_id = #{voteId}
+    </update>
+
+</mapper>

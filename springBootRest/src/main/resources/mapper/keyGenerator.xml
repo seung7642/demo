@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springbootrest.model.mapper.KeyGeneratorMapper">
+
+    <select id="getKeyIdxList" resultType="KeyGenerator">
+        SELECT idx, cnt
+        FROM key_generator
+    </select>
+
+    <update id="updateKeyIdx" parameterType="int">
+        UPDATE key_generator
+        SET cnt = #{cnt}
+        WHERE idx = #{idx}
+    </update>
+
+</mapper>

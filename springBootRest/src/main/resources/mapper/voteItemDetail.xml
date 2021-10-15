@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springbootrest.model.mapper.VoteItemDetailMapper">
+
+    <insert id="insert" parameterType="SelectRequestDto">
+        INSERT INTO vote_item_detail (item_id, user_id)
+        VALUES (#{itemId}, #{userId})
+    </insert>
+
+    <select id="getVoteItemDetail" parameterType="long" resultMap="voteItemDetailMap">
+        SELECT item_id, user_id
+        FROM vote_item_detail
+        WHERE item_id = #{itemId}
+    </select>
+    
+    <resultMap id="voteItemDetailMap" type="VoteItemDetail">
+        <result column="item_id" property="itemId" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+</mapper>

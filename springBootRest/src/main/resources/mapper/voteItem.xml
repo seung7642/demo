@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springbootrest.model.mapper.VoteItemMapper">
+
+    <insert id="createItem" parameterType="VoteItemDto">
+        INSERT INTO vote_item (vote_id, item)
+        VALUES (#{voteId}, #{item})
+    </insert>
+
+    <select id="getVoteItem" parameterType="String" resultMap="getVoteItemResultMap">
+        SELECT item_id, vote_id, item, cnt
+        FROM vote_item
+        WHERE vote_id = #{voteId}
+    </select>
+
+    <resultMap id="getVoteItemResultMap" type="VoteItem">
+        <id column="item_id" property="itemId" />
+        <result column="vote_id" property="voteId" />
+        <result column="item" property="item" />
+        <result column="cnt" property="cnt" />
+        <collection property="details" column="item_id" javaType="java.util.ArrayList" ofType="VoteItemDetail" select="com.example.springbootrest.model.mapper.VoteItemDetailMapper.getVoteItemDetail" />
+    </resultMap>
+
+    <update id="countPlus" parameterType="long">
+        UPDATE vote_item
+        SET cnt = cnt + 1
+        WHERE item_id = #{itemId}
+    </update>
+
+</mapper>
