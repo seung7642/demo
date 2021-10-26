@@ -26,8 +26,8 @@ public class FirebaseCloudMessageService {
     public final ObjectMapper objectMapper;
     private List<String> clientTokens = new ArrayList<>();
 
-    // Firebase Console -> [프로젝트 설정] -> 일반 탭에서 프로젝트 ID 확인 가능하다.
-    // ~/projects/{Firebase 프로젝트ID}/messages:send 
+    // Firebase Console -> [프로젝트 설정] -> [일반] 탭에서 프로젝트 ID 확인 가능하다.
+    // ~/projects/{프로젝트ID}/messages:send
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/{프로젝트ID}/messages:send";
      
     private String getAccessToken() throws IOException {
