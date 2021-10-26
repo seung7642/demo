@@ -13,17 +13,17 @@ public class FcmMessage {
     private boolean validate_only;
     private Message message;
 
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@Getter @Setter
-	public static class Message {
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter @Setter
+    public static class Message {
         private Notification notification;
         private String token;
     }
 
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@Getter @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter @Setter
     public static class Notification {
         private String title;
         private String body;

@@ -21,8 +21,8 @@ import okhttp3.Response;
 
 @Component
 public class FirebaseCloudMessageService {
-	
-	private static final Logger logger = LoggerFactory.getLogger(FirebaseCloudMessageService.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(FirebaseCloudMessageService.class);
     public final ObjectMapper objectMapper;
     private List<String> clientTokens = new ArrayList<>();
 

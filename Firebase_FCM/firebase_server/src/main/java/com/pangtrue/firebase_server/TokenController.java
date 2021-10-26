@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin("*")
 public class TokenController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(TokenController.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(TokenController.class);
 
     @Autowired
     private FirebaseCloudMessageService service;
