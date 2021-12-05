@@ -17,7 +17,10 @@
 ### 2.1 엔티티 설계
 Category와 Item 관계를 보면 N:M 관계로 나타냈는데, 이는 JPA를 학습하는 차원에서 나타낸 것일뿐 실무에서는 1:N, M:1 관계로 풀어서 나타내야 합니다. 
 또한, Member와 Order를 보면 양방향 연관 관계로 설정을 해두었는데, 이또한 마찬가지로 학습하는 차원에서 양방향으로 설정해둔 것일뿐
-실무에서는 되도록 단방향 연관 관계로 끝내는 것이 좋습니다.
+실무에서는 되도록 단방향 연관 관계로 끝내는 것이 좋습니다. <br/>
+
 <img src="https://user-images.githubusercontent.com/31037742/144737239-0b341b40-1c0d-4240-ba79-56e46a9cda6f.png" align="center">
+
 ### 2.2 ERD 설계
-![ERD 설계](https://user-images.githubusercontent.com/31037742/144738947-3a8f9511-44c6-474b-9160-4812822561d3.png)
+
+<img src="https://user-images.githubusercontent.com/31037742/144738947-3a8f9511-44c6-474b-9160-4812822561d3.png" align="center">
