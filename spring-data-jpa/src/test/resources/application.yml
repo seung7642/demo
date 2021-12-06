@@ -1,0 +1,21 @@
+# Spring Boot는 DB 설정이 별도로 존재하지 않으면, H2를 in-memory 형태로 띄워서 테스트합니다.
+# 그래서 test/resources/application.yml 에 아무런 설정이 없어도 테스트가 제대로 동작합니다.
+spring:
+#  datasource:
+#    url: jdbc:h2:mem:test
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    properties:
+#      hibernate:
+##        show_sql: true # 얘는 System.out에 출력하는 것이고, 밑에 로거는 로거가 찍는 것.
+#        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug # JPA 쿼리를 로거가 찍어서 보여준다.
+    org.hibernate.type: trace
