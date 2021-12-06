@@ -28,3 +28,16 @@ Category와 Item 관계를 보면 N:M 관계로 나타냈는데, 이는 JPA를 �
 <p align="center">
 <img src="https://user-images.githubusercontent.com/31037742/144738947-3a8f9511-44c6-474b-9160-4812822561d3.png">
 </p>
+
+## 3. 주의사항
+### 3.1 Entity 설계시 주의점
+- Entity에는 가급적 Setter를 사용하지 말자. (변경 포인트가 너무 많아서 유지보수가 어렵다.)
+- 모든 연관 관계는 지연로딩(LAZY)으로 설정하자.
+  - 즉시로딩(EAGER)은 예측이 어렵고, 어떤 SQL이 실행될지 추적하기 어렵다. 특히 JPQL을 실행할 때 N+1 문제가 자주 발생한다.
+  - 연관된 Entity를 함께 DB에서 조회해야 한다면, fetch join 또는 Entity 그래프 탐색을 사용하자.
+- 컬렉션 필드는 기본적으로 new ArrayList<>()와 같이 초기화를 해두자.
+  - NPE 방지 
+  - Hibernate는 Entity를 영속화할 때, 컬렉션을 감싸서 Hibernate가 제공하는 내장 컬렉션으로 변경한다. 만약 <code>getOrders()</code>처럼 임의의 
+  메서드에서 컬렉션을 잘못 생성하면 Hibernate 내부 메커니즘에 문제가 발생할 수 있다. 따라서 필드 레벨에서 생성하는 것이 가장 안전하고, 코드도 간결하다.
+
+
