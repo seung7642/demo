@@ -1,5 +1,6 @@
 package com.demo.jpashop.service;
 
+import com.demo.jpashop.domain.item.Book;
 import com.demo.jpashop.domain.item.Item;
 import com.demo.jpashop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,13 @@ public class ItemService {
     @Transactional
     public void saveItem(Item item) {
         itemRepository.save(item);
+    }
+
+    // 변경 감지 기능을 사용한 업데이트
+    @Transactional
+    public void updateItem(Long itemId, String name, int price, int stockQuantity) {
+        Item findItem = itemRepository.findOne(itemId);
+        findItem.changeCommonField(name, price, stockQuantity);
     }
 
     public List<Item> findItems() {

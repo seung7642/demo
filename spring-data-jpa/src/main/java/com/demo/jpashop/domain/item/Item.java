@@ -39,4 +39,12 @@ public abstract class Item {
         }
         this.stockQuantity = restStock;
     }
+
+    // setter를 사용하는게 아니라, 아래처럼 변경 메서드를 Entity쪽에 만들어두면, 해당 메서드를 사용하는 곳만 찾으면
+    // 어디서 변경이 일어나는지 바로 추적할 수 있습니다. (setter를 남발해 값을 변경하면 어디서 값 변경이 이뤄지는지 추적이 힘듭니다.)
+    public void changeCommonField(String name, int price, int stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
 }
