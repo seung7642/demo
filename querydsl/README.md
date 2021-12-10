@@ -87,4 +87,7 @@ private BooleanExpression allEq(String usernameCond, Integer ageCond) {
 }
 ```
 
+### 1.3 사용자 정의 리포지토리
+<p align="center"><img src="https://user-images.githubusercontent.com/31037742/145519432-8ba30137-c1a2-49dc-89b2-3b191e6e875e.png"></p>
+
 
