@@ -90,4 +90,49 @@ private BooleanExpression allEq(String usernameCond, Integer ageCond) {
 ### 1.3 사용자 정의 리포지토리
 <p align="center"><img src="https://user-images.githubusercontent.com/31037742/145519432-8ba30137-c1a2-49dc-89b2-3b191e6e875e.png" width="500"></p>
 
+### 1.4 페이징
+컨트롤러에서 <code>Pageable</code>로 받을 수 있습니다.
+```java
+@GetMapping("/v3/members")
+public Page<MemberTeamDto> searchMemberV3(MemberSearchCondition condition, Pageable pageable) {
+    return memberRepository.searchPageComplex(condition, pageable);
+}
+```
+실질적인 페이징 로직은 커스텀 리포지토리에 Querydsl을 이용해 작성합니다.
+```java
+public Page<MemberTeamDto> searchPageComplex(MemberSearchCondition condition, Pageable pageable) {
+    List<MemberTeamDto> content = queryFactory
+            .select(new QMemberTeamDto(
+                    member.id.as("memberId"),
+                    member.username,
+                    member.age,
+                    team.id.as("teamId"),
+                    team.name.as("teamName")))
+            .from(member)
+            .leftJoin(member.team, team)
+            .where(
+                    usernameEq(condition.getUsername()),
+                    teamNameEq(condition.getTeamName()),
+                    ageGoe(condition.getAgeGoe()),
+                    ageLoe(condition.getAgeLoe())
+            )
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
+
+    JPAQuery<Member> countQuery = queryFactory
+            .select(member)
+            .from(member)
+            .leftJoin(member.team, team)
+            .where(
+                    usernameEq(condition.getUsername()),
+                    teamNameEq(condition.getTeamName()),
+                    ageGoe(condition.getAgeGoe()),
+                    ageLoe(condition.getAgeLoe())
+            );
+
+    // PageableExecutionUtils를 사용하면 마지막 페이지에 한해 카운트 쿼리를 별도로 날리지 않습니다. (성능 최적화)
+    return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
+}
+```
 
