@@ -3,7 +3,10 @@ package com.demo.querydsl.repository;
 import com.demo.querydsl.dto.MemberSearchCondition;
 import com.demo.querydsl.dto.MemberTeamDto;
 import com.demo.querydsl.entity.Member;
+import com.demo.querydsl.entity.QMember;
 import com.demo.querydsl.entity.Team;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,24 +30,8 @@ public class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @Test
-    public void basicTest() {
-        Member member = new Member("member1", 10);
-        memberRepository.save(member);
-
-        Member findMember = memberRepository.findById(member.getId()).get();
-        assertThat(findMember).isEqualTo(member);
-
-        List<Member> result1 = memberRepository.findAll();
-        assertThat(result1).containsExactly(member);
-
-        List<Member> result2 = memberRepository.findByUsername(member.getUsername());
-        assertThat(result2).containsExactly(member);
-    }
-
-    @Test
-    public void search_WhereParam() throws Exception {
-        // given (이런게 주어졌을 때)
+    @BeforeEach
+    public void before() {
         Team teamA = new Team("teamA");
         Team teamB = new Team("teamB");
         em.persist(teamA);
@@ -58,6 +45,29 @@ public class MemberRepositoryTest {
         em.persist(member2);
         em.persist(member3);
         em.persist(member4);
+
+    }
+
+    @Test
+    public void basicTest() {
+        Member member = new Member("member", 25);
+        memberRepository.save(member);
+
+        Member findMember = memberRepository.findById(member.getId()).get();
+        assertThat(findMember).isEqualTo(member);
+
+        List<Member> result1 = memberRepository.findAll();
+//        assertThat(result1).containsExactly(member);
+        assertThat(result1).containsAnyOf(member);
+
+        List<Member> result2 = memberRepository.findByUsername(member.getUsername());
+//        assertThat(result2).containsExactly(member);
+        assertThat(result2).containsAnyOf(member);
+    }
+
+    @Test
+    public void search_WhereParam() throws Exception {
+        // given (이런게 주어졌을 때)
 
         // when (이렇게 하면)
         MemberSearchCondition condition = new MemberSearchCondition();
@@ -75,19 +85,6 @@ public class MemberRepositoryTest {
     @Test
     public void search_paging() throws Exception {
         // given (이런게 주어졌을 때)
-        Team teamA = new Team("teamA");
-        Team teamB = new Team("teamB");
-        em.persist(teamA);
-        em.persist(teamB);
-
-        Member member1 = new Member("member1", 10, teamA);
-        Member member2 = new Member("member2", 20, teamA);
-        Member member3 = new Member("member3", 30, teamB);
-        Member member4 = new Member("member4", 40, teamB);
-        em.persist(member1);
-        em.persist(member2);
-        em.persist(member3);
-        em.persist(member4);
 
         // when (이렇게 하면)
         MemberSearchCondition condition = new MemberSearchCondition();
@@ -100,5 +97,16 @@ public class MemberRepositoryTest {
         assertThat(result.getContent())
                 .extracting("username")
                 .containsExactly("member1", "member2", "member3");
+    }
+
+    @Test
+    public void querydslPredicateExecutorTest() {
+        QMember member = QMember.member;
+        Iterable<Member> result =
+                memberRepository.findAll(member.age.between(10, 40).and(member.username.eq("member1")));
+
+        for (Member findMember : result) {
+            System.out.println("member1 = " + findMember);
+        }
     }
 }
