@@ -11,7 +11,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
@@ -23,10 +22,7 @@ import static org.springframework.util.StringUtils.hasText;
 
 // 무조건 이름은 해당 기능을 상속받을 리포지토리에 Impl을 붙여줘야 합니다.
 // 여기서 search() 기능을 상속받아 사용할 리포지토리는 MemberRepository 인터페이스이기 때문에 이름을 MemberRepositoryImpl로 짓습니다.
-public class MemberRepositoryImpl
-//        extends QuerydslRepositorySupport // Spring-Data-JPA에서 Querydsl 사용자에게 제공해주는 리포지토리 지원 클래스
-        implements MemberRepositoryCustom
-{
+public class MemberRepositoryImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     public MemberRepositoryImpl(EntityManager em) {
