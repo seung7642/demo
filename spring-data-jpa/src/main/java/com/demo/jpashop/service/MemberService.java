@@ -41,4 +41,13 @@ public class MemberService {
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
+
+    // update 메서드에서 Member 타입을 반환해주면 안되나? 라는 의문을 가질 수도 있는데,
+    // 그렇게 되면 커맨드와 쿼리를 모두 가지고 있는 형태가 됩니다. 무슨 말이냐면, update 메서드에서
+    // 값을 수정도 하고, 값을 조회도 하는 형태가 됩니다. (역할을 짬뽕시키는 것보다, 철저히 분리하는게 좋습니다.)
+    @Transactional
+    public void update(Long id, String name) {
+        Member findMember = memberRepository.findOne(id);
+        findMember.setName(name);
+    }
 }
