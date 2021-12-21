@@ -93,5 +93,24 @@ public class OrderRepository {
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
         return query.getResultList();
     }
-    
+
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d", Order.class)
+                .getResultList();
+    }
+
+    // 아래와 같이 DTO로 미리 조회를 해오면 성능을 더 끌어올릴 수 있다는 장점이 있는 반면, 재사용 측면에서 단점이 있습니다.
+    // API 스펙에 맞춰 리포지토리 메서드를 만들어서 계층 상 깨져있다고 볼 수 있습니다. (API 스펙이 바뀌면 해당 리포지토리 내 메서드는 수정이 되야합니다.)
+    // API 스펙이 리포지토리 내에 들어와있는 거라 볼 수 있습니다.
+    public List<OrderSimpleQueryDto> findOrderDtos() {
+        return em.createQuery(
+                "select new com.demo.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
+                        " from Order o" +
+                        " join o.member m" +
+                        " join o.delivery d", OrderSimpleQueryDto.class)
+                .getResultList();
+    }
 }
