@@ -12,6 +12,8 @@ spring:
       hibernate:
 #        show_sql: true # 얘는 System.out에 출력하는 것이고, 밑에 로거는 로거가 찍는 것.
         format_sql: true
+        default_batch_fetch_size: 100
+#    open-in-view: false
 
 logging:
   level:

@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 
@@ -29,6 +30,7 @@ public class Order {
 
     // OrderItem을 참조하는 곳이 Order 밖에 없기 때문에 cascade 옵션을 사용할 수 있습니다.
     // 만약 OrderItem을 참조하는 곳이 여러 곳이라면 cascade 옵션을 사용할 경우 문제가 발생할 수 있습니다.
+    @BatchSize(size = 100) // application.yml에 글로벌하게 명시할 수도 있고, 이렇게 여기에만 적용되도록 명시할 수도 있습니다.
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
