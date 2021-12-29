@@ -10,7 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Repository
-public class MemberRepository {
+public class MemberRepositoryOld {
 
     private final EntityManager em;
 
