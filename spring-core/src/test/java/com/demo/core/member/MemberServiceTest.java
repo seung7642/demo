@@ -1,13 +1,21 @@
 package com.demo.core.member;
 
+import com.demo.core.AppConfig;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class MemberServiceTest {
 
-    MemberService memberService = new MemberServiceImpl();
+    MemberService memberService;
+
+    @BeforeEach // 각각의 테스트가 실행되기 전에 실행됩니다. 만약 테스트 메서드가 5개라면 총 5번 실행됩니다.
+    public void beforeEach() {
+        AppConfig appConfig = new AppConfig();
+        memberService = appConfig.memberService();
+    }
 
     @Test
     public void 회원가입() throws Exception {
