@@ -1,16 +1,15 @@
 package com.demo.datajpa.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.*;
 
+@Builder
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 @NamedQuery( // 해당 @NamedQuery 는 실무에서는 잘 사용되지 않습니다.
         name = "Member.findByUsername",
